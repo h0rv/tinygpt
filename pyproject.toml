@@ -1,0 +1,19 @@
+[project]
+name = "tinygpt"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.14"
+dependencies = [
+    "httpx>=0.28.1",
+    "numpy>=2.4.6",
+    "tinygrad>=0.13.0",
+    "tqdm>=4.68.0",
+]
+
+[dependency-groups]
+dev = [
+    "marimo>=0.23.9",
+    "ruff>=0.15.16",
+    "ty>=0.0.44",
+]
