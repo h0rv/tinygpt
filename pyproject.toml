@@ -13,9 +13,21 @@ dependencies = [
     "tqdm>=4.68.0",
 ]
 
+[project.scripts]
+tinygpt = "tinygpt.gen:main"
+tinygpt-train = "tinygpt.train:train"
+
 [dependency-groups]
 dev = [
     "marimo>=0.23.9",
     "ruff>=0.15.16",
     "ty>=0.0.44",
 ]
+
+[build-system]
+requires = ["uv_build>=0.11.19,<0.12"]
+build-backend = "uv_build"
+
+[tool.uv.build-backend]
+module-name = "tinygpt"
+module-root = ""

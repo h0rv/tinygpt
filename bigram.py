@@ -63,16 +63,13 @@ def _(chars):
     char2int = {ch: i for i, ch in enumerate(chars)}
     int2char = {i: ch for i, ch in enumerate(chars)}
 
-
     def encode(s: str) -> list[int]:
         return [char2int[ch] for ch in s]
-
 
     def decode(ints: int | list[int]) -> str:
         if isinstance(ints, int):
             ints = [ints]
         return "".join([int2char[i] for i in ints])
-
 
     print(encode("hello, world!"))
     print(decode(encode("hello, world!")))
@@ -102,7 +99,6 @@ def _(Tensor, decode, train_data, val_data):
     batch_size = 4  # number of independent sequences to process in parallel
     block_size = 8  # maximum context length for predictions
 
-
     def get_batch(is_training=True):
         data = train_data if is_training else val_data
         # ix = Tensor.randint((batch_size,), high=len(data) - block_size).tolist()
@@ -115,7 +111,6 @@ def _(Tensor, decode, train_data, val_data):
         x = data[idx]  # tensor gather -> (batch_size, block_size)
         y = data[idx + 1]
         return x, y
-
 
     xb, yb = get_batch(is_training=True)
     print("inputs:")
@@ -141,7 +136,6 @@ def _(Tensor, decode, train_data, val_data):
 @app.cell
 def _(Tensor, nn, vocab_size, xb, yb):
     Tensor.manual_seed(1337)
-
 
     class BigramLanguageModel:
         def __init__(self, vocab_size):
@@ -176,7 +170,6 @@ def _(Tensor, nn, vocab_size, xb, yb):
                 idx = idx.cat(idx_next, dim=1).realize()  # (B, T+1)
             return idx
 
-
     m = BigramLanguageModel(vocab_size)
     logits, loss = m(xb, yb)
     print(logits.shape)
@@ -189,7 +182,6 @@ def _(Tensor, decode, dtypes, m):
     def gen(max_new_tokens=100):
         idx = Tensor.zeros(1, 1, dtype=dtypes.long)
         print(decode(m.generate(idx, max_new_tokens=max_new_tokens)[0].tolist()))
-
 
     gen()
     return (gen,)
@@ -207,7 +199,6 @@ def _(Tensor, get_batch, m, optimizer):
 
     _batch_size = 32
 
-
     @TinyJit
     def step(xb, yb):
         _, loss = m(xb, yb)
@@ -216,11 +207,9 @@ def _(Tensor, get_batch, m, optimizer):
         optimizer.step()
         return loss.realize()
 
-
     Tensor.training = True
     for _ in range(100000):
         _loss = step(*get_batch(is_training=True))
-
 
     Tensor.training = False
     print(_loss.item())
