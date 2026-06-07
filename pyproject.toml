@@ -5,7 +5,9 @@ description = "Add your description here"
 readme = "README.md"
 requires-python = ">=3.14"
 dependencies = [
+    "datasets>=5.0.0",
     "httpx>=0.28.1",
+    "kagglehub[pandas-datasets]>=1.0.1",
     "numpy>=2.4.6",
     "tinygrad>=0.13.0",
     "tqdm>=4.68.0",
